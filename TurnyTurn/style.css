@@ -1,0 +1,174 @@
+@font-face {
+  font-family: GilroyBold; /* set name */
+  src: url(font/Gilroy-Bold.ttf); /* url of the font */
+}
+
+* {
+  font-family: GilroyBold;
+}
+
+body {
+  align-items: center;
+  justify-content: center;
+  background-color: #ebebeb;
+}
+
+#game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 80vh;
+}
+
+#dial-div {
+  width: 90vw;
+  height: 90vw;
+  display: flex;
+  flex-direction: column;
+}
+
+#arrow {
+  height: 10vw;
+  margin-left: -75%;
+}
+
+.select {
+  margin-top: -100%;
+  visibility: hidden;
+}
+
+#counter {
+  font-size: 10vw;
+  line-height: 0;
+}
+
+.hammer {
+  border: none;
+  z-index: 5;
+  visibility: hidden;
+}
+
+#dial-div * {
+  width: 100%;
+  height: 100%;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#dial-shadow {
+  z-index: 0;
+}
+
+#dial {
+  margin-top: -100%;
+  z-index: 1;
+}
+
+.animation_container {
+  margin-top: -150%;
+}
+
+.animation_container * {
+  width: 100%;
+  height: 100%;
+}
+
+#hole-div {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  transform-origin: 50% 300%;
+}
+
+#counter-div {
+  width: 100%;
+}
+
+#holes {
+  width: 100%;
+  display: flex;
+}
+
+#holes * {
+  justify-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+}
+
+#blank-overlay {
+  background-color: #ebebeb;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#dialogue-overlay {
+  background-color: #ffce49;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+#inner-overlay {
+  background-color: #ffce49;
+  z-index: 150;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.dialogue-flex {
+  z-index: 5;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dialogue-img {
+  width: 60%;
+}
+
+.dialogue-text {
+  color: rgb(31, 29, 29);
+  width: 80%;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1;
+  font-size:7vw;
+}
+
+#permission-button {
+  width: 70%;
+  height: 7%;
+  border-radius: 5vw;
+  border-color: rgb(31, 29, 29);
+  border-width: 1vw;
+  border-style: solid;
+  background-color: #ffdf4e;
+  font-size: 5vw;
+  z-index: 125;
+}
+
+#dialogue-main {
+  display: none;
+}
+

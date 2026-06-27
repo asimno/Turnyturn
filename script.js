@@ -1,4 +1,45 @@
-import {genParticipantID,post} from './config/route.js';
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+const columns=['id']
+
+function genParticipantID(){
+    return Math.floor(1000 + Math.random() * 9000);
+    //Not the safest method but should work for this project
+}
+
+function twoListDictionary(l1,l2){
+  if (l1.length!=l2.length){console.error("List1 and List2 must be equal len!")};
+  var newDic=new Map();
+  for (var i = 0;i<l1.length;i++){
+    newDic[l1[i]]=l2[i]
+  }
+  return newDic
+}
+
+const participantID = genParticipantID();
+
+const supabaseUrl = "https://rzhmaafelvyxnkzzvkru.supabase.co";
+const supabaseAnonKey = "sb_publishable_huUTL8j4CUb96smv8QBAGg_fTt3T-zk";
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+async function post(params) {
+    const { data, error } = await supabase
+      .from("participants")
+      .insert([
+          twoListDictionary(columns,params),
+      ]);
+
+    if (error) {
+      console.error(error);
+    } else {
+      console.log("successful post", data);
+    }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
 
 const holeCount = 4
 const arrowUnit = 100/holeCount
@@ -263,6 +304,8 @@ async function run() {
   await blankFadeIn();
   document.getElementById("dialogue-main").style.display="none";
   document.getElementById("survey-screen").style.display="flex";
+  post([participantID]);
+  document.getElementById("survey-screen").getElementsByClassName("dialogue-text")[0].innerHTML="Thanks for completing the study! <span class='important'>Your participant number is P"+participantID+"</span>. Please complete the survey I've linked below. :)"
   document.getElementById("dialogue-overlay").style.visibility="visible";
   document.getElementById("dialogue-main").style.visibility="visible";
   await blankFadeOut();

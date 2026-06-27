@@ -1,5 +1,41 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+const totalRounds=10;
+
+document.getElementById("round").innerHTML="Rounds: 0/"+totalRounds;
+document.getElementById("score-label").innerHTML="Score: 0/"+totalRounds;
+
+var randomHole;
+var reach=true;
+var preReachTime=0;
+var preReachHole=0;
+var currentRound=0;
+
+var TTR=0;
+var WeightedTTR=0;
+
+var velocity=0;
+var maxVelocity=0;
+
+var alpha;
+var previousAlpha;
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function velocityTrack(){
+  while (true){
+    velocity=Math.abs(alpha-previousAlpha);
+    document.getElementById("TV").innerHTML="Turn Velocity: "+velocity;
+    if (velocity>maxVelocity){
+      maxVelocity=velocity;
+      document.getElementById("maxTV").innerHTML="Max Turn Velocity: "+maxVelocity;  
+    }
+    await sleep(100)
+  }
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 const columns=['id']
@@ -58,19 +94,24 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 var currentSelection = 0
 function setSelection(selection) {
   if (selection>=0 && selection<holeCount){
     document.getElementsByClassName("select")[currentSelection].style.visibility="hidden";
-
     currentSelection = selection;
     arrow.style.marginLeft = (arrowUnit*-(holeCount-1-currentSelection*2))+"%";
     document.getElementsByClassName("select")[currentSelection].style.visibility="visible";
-    //document.getElementById("counter").innerHTML=currentSelection+1;
+    document.getElementById("select").innerHTML="Hole Selection: "+(currentSelection+1);
+
+    if (reach==false && selection==randomHole){
+      reach=true;
+      var raw_ttr = Date.now() - preReachTime;
+      TTR+=raw_ttr;
+      WeightedTTR+=(raw_ttr*(1+holeCount-Math.abs(randomHole-preReachHole)))
+
+      document.getElementById("TTR").innerHTML="TTR (Time To Reach): "+(TTR/currentRound);
+      document.getElementById("weightedTTR").innerHTML="Weighted TTR: "+(WeightedTTR/currentRound);
+    }
   }
 }
 
@@ -89,7 +130,6 @@ for (let i = 0;i<holeCount;i++) {
 
 setSelection(0);
 
-var previousAlpha;
 function selectionDetect(alpha){
   if (previousAlpha!=null){
       if (Math.round(alpha)>(Math.round(previousAlpha)+180)){
@@ -103,11 +143,11 @@ function selectionDetect(alpha){
 
 function handleOrientation(event) {
 
-  let alpha = event.alpha;
+  alpha = event.alpha;
 
   selectionDetect(alpha)
 
-  document.getElementById("rotation-label").innerHTML = alpha + " degrees!";
+  document.getElementById("rotation-label").innerHTML = "Degrees: "+alpha;
   document.getElementById("dial-shadow").style.rotate = alpha + "deg";
   document.getElementById("hole-div").style.rotate = alpha + "deg";
   document.getElementById("counter").style.rotate = alpha + "deg";
@@ -125,7 +165,6 @@ function visReset() {
 }
 
 var spawned=false;
-var randomHole;
 var score=0;
 function spawn() {
   visReset();
@@ -141,7 +180,7 @@ async function slam() {
   await sleep(900);
     if (randomHole==finalSelection){
       score+=1;
-      document.getElementById("score-label").innerHTML="Score: "+score;
+      document.getElementById("score-label").innerHTML="Score: "+score+"/"+totalRounds;
       playToAndFrom({},comp,randomHole,animationBank.hit);
     } else if (randomHole<finalSelection) {
       playToAndFrom({},comp,randomHole,animationBank.startleRight);
@@ -154,7 +193,13 @@ const countdownMax = 5
 async function game(rounds) {
   for (var i = 0;i<rounds;i++){
     console.log("ROUND!")
-    await sleep((getRandomInt(5)+3)*1000);
+    await sleep((getRandomInt(5)+2)*700);
+    reach=false;
+    preReachTime=Date.now();
+    preReachHole=currentSelection;
+    currentRound+=1;
+    document.getElementById("round").innerHTML="Rounds: "+currentRound+"/"+totalRounds;
+
     spawn();
     console.log("testy TEST TESTY TEST TEST")
     var countdown = countdownMax
@@ -299,7 +344,8 @@ async function run() {
   await blankFadeOut();
 
   await sleep(1500);
-  await game(0);
+  /*
+  await game(totalRounds);
   console.log("game DONE");
   await blankFadeIn();
   document.getElementById("dialogue-main").style.display="none";
@@ -309,6 +355,7 @@ async function run() {
   document.getElementById("dialogue-overlay").style.visibility="visible";
   document.getElementById("dialogue-main").style.visibility="visible";
   await blankFadeOut();
+  */
 }
 
 async function requestDeviceOrientation() {

@@ -180,3 +180,18 @@ body {
   color: rgb(81, 18, 117);
   font-size: 7.5vw;
 }
+
+#full-screen {
+  display: none;
+}
+
+#data-table {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#data-table * {
+  flex-basis: 50%;
+  box-sizing: border-box;
+  color: grey;
+}

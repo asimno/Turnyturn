@@ -181,10 +181,6 @@ body {
   font-size: 7.5vw;
 }
 
-#full-screen {
-  display: none;
-}
-
 #data-table {
   display: flex;
   flex-wrap: wrap;

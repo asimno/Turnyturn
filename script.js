@@ -116,7 +116,7 @@ function setSelection(selection) {
     document.getElementsByClassName("select")[currentSelection].style.visibility="visible";
     document.getElementById("select").innerHTML="Hole Selection: "+(currentSelection+1);
 
-    if (reach==false && selection==randomHole){
+    if (reach==false && selection==randomHole && currentRound>0){
       reach=true;
       var raw_ttr = (Date.now() - preReachTime);
       TTR+=raw_ttr;

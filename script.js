@@ -32,7 +32,8 @@ async function velocityTrack(){
       maxVelocity=velocity;
       document.getElementById("maxTV").innerHTML="Max Turn Velocity: "+maxVelocity;  
     }
-    await sleep(100)
+    await sleep(100);
+    console.log("ping");
   }
 }
 
@@ -341,10 +342,10 @@ async function run() {
   document.getElementById("dialogue-overlay").style.visibility="hidden";
   document.getElementById("dialogue-main").style.visibility="hidden";
   await sleep(2000);
+  velocityTrack();
   await blankFadeOut();
 
   await sleep(1500);
-  /*
   await game(totalRounds);
   console.log("game DONE");
   await blankFadeIn();
@@ -355,7 +356,6 @@ async function run() {
   document.getElementById("dialogue-overlay").style.visibility="visible";
   document.getElementById("dialogue-main").style.visibility="visible";
   await blankFadeOut();
-  */
 }
 
 async function requestDeviceOrientation() {

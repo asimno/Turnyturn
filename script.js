@@ -51,7 +51,7 @@ async function velocityTrack(){
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-const columns=['id','rounds','score','timetoreach','weighttimetoreach','maxvelocity','mintimetoreach','maxtimetoreach','minttrmaxvelocity','maxttrmaxvelocity']
+const columns=['id','rounds','score','timetoreach','weightimetoreach','maxvelocity','mintimetoreach','maxtimetoreach','minttrmaxvelocity','maxttrmaxvelocity']
 
 function genParticipantID(){
     return Math.floor(1000 + Math.random() * 9000);
@@ -118,7 +118,7 @@ function setSelection(selection) {
 
     if (reach==false && selection==randomHole){
       reach=true;
-      var raw_ttr = Date.now() - preReachTime;
+      var raw_ttr = (Date.now() - preReachTime).toFixed(4);
       TTR+=raw_ttr;
       WeightedTTR+=raw_ttr/Math.abs(randomHole-preReachHole)
 
@@ -227,7 +227,7 @@ async function game(rounds) {
     var countdown = countdownMax
     for (var j = 0;j<countdownMax;j++){
       document.getElementById("counter").innerHTML=countdown;
-      await sleep(1000);
+      await sleep(1); //TEST
       console.log(countdown);
       countdown-=1;
     }

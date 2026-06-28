@@ -108,6 +108,7 @@ body {
   position: fixed;
   width: 100vw;
   height: 100vh;
+  border: 1px solid black;
   top: 0px;
   left: 0px;
 }
@@ -176,6 +177,10 @@ body {
   display:none;
 }
 
+#full-screen {
+  display: none;
+}
+
 .important {
   color: rgb(81, 18, 117);
   font-size: 7.5vw;
@@ -184,10 +189,11 @@ body {
 #data-table {
   display: flex;
   flex-wrap: wrap;
+  text-align: center;
 }
 
 #data-table * {
   flex-basis: 50%;
-  box-sizing: border-box;
   color: grey;
+  margin: 0;
 }

@@ -17,6 +17,13 @@ var WeightedTTR=0;
 var velocity=0;
 var maxVelocity=0;
 
+var minTTR=9999999999;
+var minTTRmaxvelocity=0;
+var finalminTTRmaxvelocity=0;
+var maxTTR=0;
+var maxTTRmaxvelocity=0;
+var finalmaxTTRmaxvelocity=0;
+
 var alpha;
 var previousAlpha;
 
@@ -26,20 +33,25 @@ function sleep(ms) {
 
 async function velocityTrack(){
   while (true){
-    velocity=(Math.abs(alpha-previousAlpha)).toFixed(4);
+    velocity=minTTRmaxvelocity=maxTTRmaxvelocity=(Math.abs(Number(alpha-previousAlpha))).toFixed(4);
     document.getElementById("TV").innerHTML="Turn Velocity: "+velocity;
     if (velocity>maxVelocity){
       maxVelocity=velocity;
       document.getElementById("maxTV").innerHTML="Max Turn Velocity: "+maxVelocity;  
     }
+    if (velocity>minTTRmaxvelocity){
+      minTTRmaxvelocity=velocity;
+    }
+    if (velocity>maxTTRmaxvelocity){
+      maxTTRmaxvelocity=velocity;
+    }
     await sleep(100);
-    console.log("ping")
   }
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-const columns=['id']
+const columns=['id','rounds','score','timetoreach','weighttimetoreach','maxvelocity','mintimetoreach','maxtimetoreach','minttrmaxvelocity','maxttrmaxvelocity']
 
 function genParticipantID(){
     return Math.floor(1000 + Math.random() * 9000);
@@ -112,6 +124,15 @@ function setSelection(selection) {
 
       document.getElementById("TTR").innerHTML="TTR (Time To Reach): "+(TTR/currentRound)+" ms";
       document.getElementById("weightedTTR").innerHTML="Weighted TTR: "+(WeightedTTR/currentRound)+" ms";
+
+      if (raw_ttr<minTTR){
+        minTTR=raw_ttr
+        finalminTTRmaxvelocity=minTTRmaxvelocity
+      }
+      if (raw_ttr>maxTTR){
+        maxTTR=raw_ttr
+        finalmaxTTRmaxvelocity=maxTTRmaxvelocity
+      }
     }
   }
 }
@@ -148,7 +169,7 @@ function handleOrientation(event) {
 
   selectionDetect(alpha)
 
-  document.getElementById("rotation-label").innerHTML = "Degrees: "+(alpha).toFixed(4);
+  document.getElementById("rotation-label").innerHTML = "Degrees: "+Number(alpha).toFixed(4);
   document.getElementById("dial-shadow").style.rotate = alpha + "deg";
   document.getElementById("hole-div").style.rotate = alpha + "deg";
   document.getElementById("counter").style.rotate = alpha + "deg";
@@ -361,7 +382,8 @@ async function run() {
       await blankFadeIn();
       document.getElementById("dialogue-main").style.display="none";
       document.getElementById("survey-screen").style.display="flex";
-      post([participantID]);
+      post([participantID,totalRounds,score,(TTR/currentRound),(WeightedTTR/currentRound),maxVelocity,minTTR,maxTTR,minTTRmaxvelocity,maxTTRmaxvelocity]);
+      //['id','rounds','score','timetoreach','weighttimetoreach','maxvelocity','mintimetoreach','maxtimetoreach','minttrmaxvelocity','maxttrmaxvelocity']
       document.getElementById("survey-screen").getElementsByClassName("dialogue-text")[0].innerHTML="Thanks for completing the study! <span class='important'>Your participant number is P"+participantID+"</span>. Please complete the survey I've linked below. :)"
       document.getElementById("dialogue-overlay").style.visibility="visible";
       document.getElementById("dialogue-main").style.visibility="visible";

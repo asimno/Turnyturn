@@ -11,6 +11,8 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #ebebeb;
+  height: 100%;
+  overflow: hidden;
 }
 
 #game {

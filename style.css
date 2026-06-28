@@ -11,8 +11,6 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #ebebeb;
-  height: 100%;
-  overflow: hidden;
 }
 
 #game {
@@ -181,16 +179,4 @@ body {
 .important {
   color: rgb(81, 18, 117);
   font-size: 7.5vw;
-}
-
-#data-table {
-  display: none;
-  flex-wrap: wrap;
-  text-align: center;
-}
-
-#data-table * {
-  flex-basis: 50%;
-  color: grey;
-  margin: 0;
 }

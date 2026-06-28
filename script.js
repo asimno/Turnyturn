@@ -33,7 +33,7 @@ async function velocityTrack(){
       document.getElementById("maxTV").innerHTML="Max Turn Velocity: "+maxVelocity;  
     }
     await sleep(100);
-    console.log("ping");
+    console.log("ping")
   }
 }
 

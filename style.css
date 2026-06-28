@@ -156,7 +156,7 @@ body {
   font-size:7vw;
 }
 
-.button {
+#permission-button {
   width: 70%;
   height: 7%;
   border-radius: 5vw;
@@ -174,9 +174,4 @@ body {
 
 #survey-screen {
   display:none;
-}
-
-.important {
-  color: rgb(81, 18, 117);
-  font-size: 7.5vw;
 }

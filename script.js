@@ -26,7 +26,7 @@ function sleep(ms) {
 
 async function velocityTrack(){
   while (true){
-    velocity=Math.abs(alpha-previousAlpha);
+    velocity=(Math.abs(alpha-previousAlpha)).toFixed(4);
     document.getElementById("TV").innerHTML="Turn Velocity: "+velocity;
     if (velocity>maxVelocity){
       maxVelocity=velocity;
@@ -108,10 +108,10 @@ function setSelection(selection) {
       reach=true;
       var raw_ttr = Date.now() - preReachTime;
       TTR+=raw_ttr;
-      WeightedTTR+=(raw_ttr*(1+holeCount-Math.abs(randomHole-preReachHole)))
+      WeightedTTR+=raw_ttr/Math.abs(randomHole-preReachHole)
 
-      document.getElementById("TTR").innerHTML="TTR (Time To Reach): "+(TTR/currentRound);
-      document.getElementById("weightedTTR").innerHTML="Weighted TTR: "+(WeightedTTR/currentRound);
+      document.getElementById("TTR").innerHTML="TTR (Time To Reach): "+(TTR/currentRound)+" ms";
+      document.getElementById("weightedTTR").innerHTML="Weighted TTR: "+(WeightedTTR/currentRound)+" ms";
     }
   }
 }
@@ -148,7 +148,7 @@ function handleOrientation(event) {
 
   selectionDetect(alpha)
 
-  document.getElementById("rotation-label").innerHTML = "Degrees: "+alpha;
+  document.getElementById("rotation-label").innerHTML = "Degrees: "+(alpha).toFixed(4);
   document.getElementById("dial-shadow").style.rotate = alpha + "deg";
   document.getElementById("hole-div").style.rotate = alpha + "deg";
   document.getElementById("counter").style.rotate = alpha + "deg";
@@ -346,16 +346,30 @@ async function run() {
   await blankFadeOut();
 
   await sleep(1500);
-  await game(totalRounds);
-  console.log("game DONE");
-  await blankFadeIn();
-  document.getElementById("dialogue-main").style.display="none";
-  document.getElementById("survey-screen").style.display="flex";
-  post([participantID]);
-  document.getElementById("survey-screen").getElementsByClassName("dialogue-text")[0].innerHTML="Thanks for completing the study! <span class='important'>Your participant number is P"+participantID+"</span>. Please complete the survey I've linked below. :)"
-  document.getElementById("dialogue-overlay").style.visibility="visible";
-  document.getElementById("dialogue-main").style.visibility="visible";
-  await blankFadeOut();
+  const readyButton = document.querySelector('#ready-button');
+  var readied=false;
+  readyButton.addEventListener('click', (event) => {
+    if (readied==true){return};
+    readied=true;
+
+    readyButton.style.display="none";
+    document.getElementById("data-table").style.display="flex";
+
+    async function innerStartGame(){
+      await game(totalRounds);
+      console.log("game DONE");
+      await blankFadeIn();
+      document.getElementById("dialogue-main").style.display="none";
+      document.getElementById("survey-screen").style.display="flex";
+      post([participantID]);
+      document.getElementById("survey-screen").getElementsByClassName("dialogue-text")[0].innerHTML="Thanks for completing the study! <span class='important'>Your participant number is P"+participantID+"</span>. Please complete the survey I've linked below. :)"
+      document.getElementById("dialogue-overlay").style.visibility="visible";
+      document.getElementById("dialogue-main").style.visibility="visible";
+      await blankFadeOut();
+    }
+
+    innerStartGame();
+  });
 }
 
 async function requestDeviceOrientation() {

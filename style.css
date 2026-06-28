@@ -177,10 +177,6 @@ body {
   display:none;
 }
 
-#full-screen {
-  display: none;
-}
-
 .important {
   color: rgb(81, 18, 117);
   font-size: 7.5vw;

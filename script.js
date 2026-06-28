@@ -88,6 +88,8 @@ async function post(params) {
     }
 }
 
+post([5666,10,8,(2553.4566/10),(1593.5644/10),0.4324,1999.3453,1553.4534,0.4344,0.3333]);
+
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 const holeCount = 4
@@ -382,7 +384,7 @@ async function run() {
       await blankFadeIn();
       document.getElementById("dialogue-main").style.display="none";
       document.getElementById("survey-screen").style.display="flex";
-      post([participantID,totalRounds,score,(TTR/currentRound),(WeightedTTR/currentRound),maxVelocity,minTTR,maxTTR,minTTRmaxvelocity,maxTTRmaxvelocity]);
+      post([participantID,totalRounds,score,(TTR/totalRounds),(WeightedTTR/totalRounds),maxVelocity,minTTR,maxTTR,minTTRmaxvelocity,maxTTRmaxvelocity]);
       //['id','rounds','score','timetoreach','weighttimetoreach','maxvelocity','mintimetoreach','maxtimetoreach','minttrmaxvelocity','maxttrmaxvelocity']
       document.getElementById("survey-screen").getElementsByClassName("dialogue-text")[0].innerHTML="Thanks for completing the study! <span class='important'>Your participant number is P"+participantID+"</span>. Please complete the survey I've linked below. :)"
       document.getElementById("dialogue-overlay").style.visibility="visible";

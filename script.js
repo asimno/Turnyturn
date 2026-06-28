@@ -39,7 +39,7 @@ async function velocityTrack(){
       maxVelocity=velocity;
       document.getElementById("maxTV").innerHTML="Max Turn Velocity: "+maxVelocity;  
     }
-    if (velocity>minTTRmaxvelocity){
+    if (velocity<minTTRmaxvelocity){
       minTTRmaxvelocity=velocity;
     }
     if (velocity>maxTTRmaxvelocity){
@@ -120,7 +120,7 @@ function setSelection(selection) {
 
     if (reach==false && selection==randomHole){
       reach=true;
-      var raw_ttr = (Date.now() - preReachTime).toFixed(4);
+      var raw_ttr = (Date.now() - preReachTime);
       TTR+=raw_ttr;
       WeightedTTR+=raw_ttr/Math.abs(randomHole-preReachHole)
 
@@ -384,7 +384,7 @@ async function run() {
       await blankFadeIn();
       document.getElementById("dialogue-main").style.display="none";
       document.getElementById("survey-screen").style.display="flex";
-      post([participantID,totalRounds,score,(TTR/totalRounds),(WeightedTTR/totalRounds),maxVelocity,minTTR,maxTTR,minTTRmaxvelocity,maxTTRmaxvelocity]);
+      post([participantID,totalRounds,score,(TTR/totalRounds).toFixed(4),(WeightedTTR/totalRounds).toFixed(4),maxVelocity,(minTTR).toFixed(4),(maxTTR).toFixed(4),minTTRmaxvelocity,maxTTRmaxvelocity]);
       //['id','rounds','score','timetoreach','weighttimetoreach','maxvelocity','mintimetoreach','maxtimetoreach','minttrmaxvelocity','maxttrmaxvelocity']
       document.getElementById("survey-screen").getElementsByClassName("dialogue-text")[0].innerHTML="Thanks for completing the study! <span class='important'>Your participant number is P"+participantID+"</span>. Please complete the survey I've linked below. :)"
       document.getElementById("dialogue-overlay").style.visibility="visible";

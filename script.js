@@ -227,7 +227,7 @@ async function game(rounds) {
     var countdown = countdownMax
     for (var j = 0;j<countdownMax;j++){
       document.getElementById("counter").innerHTML=countdown;
-      await sleep(1); //TEST
+      await sleep(1000);
       console.log(countdown);
       countdown-=1;
     }

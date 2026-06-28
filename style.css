@@ -110,7 +110,6 @@ body {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  border: 1px solid black;
   top: 0px;
   left: 0px;
 }
@@ -185,7 +184,7 @@ body {
 }
 
 #data-table {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   text-align: center;
 }
